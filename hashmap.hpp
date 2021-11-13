@@ -178,7 +178,7 @@ private:
             _count++;
         }
 
-          bool delete_node(std::string key)
+        bool delete_node(std::string key)
             {
                 Node *current= _head;
                 Node *previous= NULL;
@@ -211,26 +211,26 @@ private:
                     }
             }
 
-            std::pair<Node, bool> get_node(std::string key){
-                Node *current = _head;
-                Node *tmp = new Node;
-               
-                while(current != NULL && current->key != key){
-                    current = current->next;
-                }
-
-
-                if(current != NULL)
-                {
-                 return std::make_pair(*current, true);
-                }
-
-                return std::make_pair(*tmp, false);
+        std::pair<Node, bool> get_node(std::string key){
+            Node *current = _head;
+            Node *tmp = new Node;
+            
+            while(current != NULL && current->key != key){
+                current = current->next;
             }
 
-            unsigned int size() const{
-                return _count;
+
+            if(current != NULL)
+            {
+                return std::make_pair(*current, true);
             }
+
+            return std::make_pair(*tmp, false);
+        }
+
+        unsigned int size() const{
+            return _count;
+        }
 
     };
 
