@@ -105,6 +105,8 @@ public:
     // was removed.
     bool remove(const std::string& key);
 
+    void clear();
+
     // contains() returns true if the given key is in this HashMap, false
     // if not.
     bool contains(const std::string& key) const;
