@@ -13,7 +13,7 @@ using std::stringstream;
 
 int main(){
     HashMap map;
-    
+
    bool debug = false;
    std::string input;
    int commandsSize;
@@ -134,22 +134,23 @@ int main(){
    }
 }
 
+unsigned int hash_function(const std::string &key){
+    unsigned int fnvPrime = 1099511628211;
+    unsigned int hashVal = 14695981039346656037;
+    int len;
+    
+    for (int i = 0; i < key.length(); ++i)
+    {
+        hashVal ^= key[i];
+        hashVal *= fnvPrime;
+    }
+
+    return hashVal;
+}
+
 HashMap::HashMap()
 {
-    hashFunction = [](const std::string &key) {
-         unsigned int fnvPrime = 1099511628211;
-            unsigned int hashVal = 14695981039346656037;
-            int len;
-            
-            for (int i = 0; i < key.length(); ++i)
-            {
-                hashVal ^= key[i];
-                hashVal *= fnvPrime;
-            }
-
-            return hashVal;
-
-    };
+   hashFunction = hash_function;
 }
 
 
