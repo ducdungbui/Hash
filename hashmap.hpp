@@ -25,7 +25,7 @@
 
 #include <functional>
 #include <string>
-
+#include <utility>
 
 
 class HashMap
@@ -144,6 +144,96 @@ private:
         Node* next;
     };
 
+    class LinkedList{
+
+      private:
+        Node *_head;
+        unsigned int _count=0;
+
+    public:
+        LinkedList(){
+            _head = NULL;
+        }
+
+        Node* get_head(){
+            return _head;
+        }
+
+        void add_node(std::string key, std::string value)
+        {
+            Node *tmp = new Node;
+            tmp->value = value;
+            tmp->key = key;
+            tmp->next = NULL;
+
+            if(_head == NULL)
+            {
+                _head = tmp;
+            }
+            else
+            {
+                tmp->next = _head;
+                _head = tmp;
+            }
+            _count++;
+        }
+
+          bool delete_node(std::string key)
+            {
+                Node *current= _head;
+                Node *previous= NULL;
+        
+
+                   // If head node itself holds
+                  // the key to be deleted
+                    if (current != NULL && current->key == key)
+                    {
+                        _head = current->next; // Changed head
+                        delete current;            // free old head
+                        _count --;
+                        return true;
+                    } else {
+
+                        while (current != NULL && current->key != key)
+                        {
+                             previous = current;
+                             current = current->next; 
+                        }
+
+                        if(current == NULL)
+                            return false; //nothing to delete
+
+                        previous->next = current->next;
+                        delete current;
+                        _count--;
+                        return true;
+
+                    }
+            }
+
+            std::pair<Node, bool> get_node(std::string key){
+                Node *current = _head;
+                Node *tmp = new Node;
+               
+                while(current != NULL && current->key != key){
+                    current = current->next;
+                }
+
+
+                if(current != NULL)
+                {
+                 return std::make_pair(*current, true);
+                }
+
+                return std::make_pair(*tmp, false);
+            }
+
+            unsigned int size() const{
+                return _count;
+            }
+
+    };
+
 
     // Store the hash function (either the default hash function or the one
     // passed to the constructor as a parameter) in this member variable.
@@ -154,12 +244,13 @@ private:
 
 
     // You will no doubt need to add at least a few more private members
-
-
+    unsigned int _itemsCount = 0;
+    unsigned int _bucketCount = INITIAL_BUCKET_COUNT;
+    double _loadFactor = 0;
+    LinkedList* _buckets = new LinkedList [INITIAL_BUCKET_COUNT];
 
 };
 
 
 
 #endif // HASHMAP_HPP
-
