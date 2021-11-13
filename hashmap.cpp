@@ -15,11 +15,12 @@ int main(){
     
 
     map.add("abc","password1");
+    std::cout << "\nSize:" << map.size() << "\n";
     map.add("abcd","password1");
+    std::cout << "Size:" << map.size() << "\n";
     map.add("abc","password1");
-    
-    std::cout << "\nSize: ";
-    std::cout << map.size() << "\n";
+    std::cout << "Size:" << map.size() << "\n";
+
     std::cout << "Password for abc:" <<map.value("abc") << "\n";
     std::cout << "Bucket Count:" <<map.bucketCount() << "\n";
     std::cout << "MaxBucketSize:" <<map.maxBucketSize() << "\n";
@@ -39,9 +40,9 @@ int main(){
     map.add("7","password1");
 
     std::cout << "Size:" << map.size() << "\n";
-        std::cout << "Bucket Count:" <<map.bucketCount() << "\n";
+    std::cout << "Bucket Count:" <<map.bucketCount() << "\n";
     std::cout << "MaxBucketSize:" <<map.maxBucketSize() << "\n";
-        std::cout << "Load Factor:" <<map.loadFactor() << "\n";
+    std::cout << "Load Factor:" <<map.loadFactor() << "\n";
     std::cout << std::endl;
 }
 
@@ -79,12 +80,8 @@ void HashMap::add(const std::string& key, const std::string& value)
 {
     if(key.empty() || value.empty()) return; // do nothing
 
-    unsigned int val;
-    unsigned int bucketIndex;
-    val = hashFunction(key);
-
-    bucketIndex = val % _bucketCount;
-
+    unsigned int bucketIndex = hashFunction(key) % _bucketCount;
+     
     std::pair<Node, bool> result = _buckets[bucketIndex].get_node(key);
 
     if(!result.second){
@@ -102,9 +99,6 @@ void HashMap::add(const std::string& key, const std::string& value)
           {
               unsigned int newBucketIndex= hashFunction(tmp->key) % newBucketCount;
               newBuckets[newBucketIndex].add_node(tmp->key, tmp->value);
-               unsigned int newBucketSize =  newBuckets[newBucketIndex].size();
-              
-
               tmp = tmp->next;
           }
       }
@@ -117,9 +111,6 @@ void HashMap::add(const std::string& key, const std::string& value)
      } else {
 
         _buckets[bucketIndex].add_node(key,value);
-        unsigned int bucketSize = _buckets[bucketIndex].size();
-
-      
          _itemsCount ++;
      }
 
@@ -176,22 +167,6 @@ unsigned int HashMap::maxBucketSize() const{
      result = std::max(result, _buckets[i].size());
  }
  return result;
-}
-
-unsigned int compute_hash(const std::string& key)
-{
-    unsigned int fnvPrime = 1099511628211;
-    unsigned int hashVal = 14695981039346656037;
-    int len;
-    
-    for (int i = 0; i < key.length(); ++i)
-    {
-        hashVal ^= key[i];
-        hashVal *= fnvPrime;
-    }
-
-    return hashVal;
-
 }
 
 
